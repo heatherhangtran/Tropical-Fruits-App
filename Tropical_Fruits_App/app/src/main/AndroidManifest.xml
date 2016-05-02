@@ -8,17 +8,17 @@
         android:label="Tropical_Fruits_App"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
-
-        <activity android:name=".Splash"
+        <activity android:name=".MainActivity"></activity>
+        <activity
+            android:name=".Splash"
             android:theme="@style/SplashPage">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".FruitDetails"></activity>
     </application>
 
 </manifest>
