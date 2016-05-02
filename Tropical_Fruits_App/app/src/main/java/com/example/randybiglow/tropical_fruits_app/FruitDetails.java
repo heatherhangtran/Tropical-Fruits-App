@@ -6,8 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 public class FruitDetails extends AppCompatActivity {
-
-    TextView mTextView;
+    private TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,10 +16,10 @@ public class FruitDetails extends AppCompatActivity {
         mTextView = (TextView) (findViewById(R.id.fruitTextView));
 
         Intent fruitIntent = getIntent();
-
         String eachFruit = fruitIntent.getStringExtra("name");
-
         mTextView.setText(eachFruit);
 
     }
+
+
 }
