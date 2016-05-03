@@ -15,7 +15,6 @@ public class Fruits {
         this.medicinal = medicinal;
     }
 
-
     @Override
     public String toString() {
         return "Fruits{" +

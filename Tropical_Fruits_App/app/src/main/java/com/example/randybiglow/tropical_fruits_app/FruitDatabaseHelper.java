@@ -27,11 +27,19 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_FRUIT_TABLE);
     }
 
+    //Make sure onUpgrade gets called before onCreate.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DROP_FRUIT_TABLE);
+        //db.execSQL(SQL_DROP_FRUIT_TABLE);
         onCreate(db);
     }
+
+    //This is optional for the SQLiteOpenHelper.
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
+
 
     public void insert (int id, String common_name, String region, String season, String medicinal) {
         SQLiteDatabase db = getWritableDatabase();

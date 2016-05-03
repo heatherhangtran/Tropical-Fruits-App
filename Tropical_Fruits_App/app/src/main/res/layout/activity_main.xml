@@ -17,6 +17,10 @@
         <!--android:layout_below="@id/mainListView"-->
         <!--android:gravity="center"-->
         <!--android:textCursorDrawable="@null"/>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainTextView"/>
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
