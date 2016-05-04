@@ -1,26 +1,32 @@
 package com.example.randybiglow.tropical_fruits_app;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 public class MainActivity extends AppCompatActivity {
     FruitDatabaseHelper dbHelper;
-    SimpleCursorAdapter adapter;
     ListView listView;
+    CursorAdapter adapter;
+
+    //SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        adapter = null; //Ask instructors as to why this is needed (derived from demo).
 
         DBAssetHelper dbSetup = new DBAssetHelper(MainActivity.this);
         dbSetup.getReadableDatabase();
@@ -28,9 +34,12 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.mainListView);
         dbHelper = FruitDatabaseHelper.getInstance(MainActivity.this);
         final Cursor cursor = dbHelper.getFruitsList();
+
+        handleIntent(getIntent());
+
+        //Switching from SimpleCursorAdapter to CursorAdapter.
         adapter = new SimpleCursorAdapter(MainActivity.this, android.R.layout.simple_list_item_1, cursor, new String[]{FruitDatabaseHelper.COL_COMMON_NAME}, new int[]{android.R.id.text1}, 0);
         listView.setAdapter(adapter);
-        handleIntent(getIntent());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -53,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_options, menu);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
@@ -60,7 +73,23 @@ public class MainActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Cursor cursor = dbHelper.searchFruits(query);
-            adapter.swapCursor(cursor);
+
+            listView = (ListView)findViewById(R.id.mainListView);
+            if(adapter == null) {
+                adapter = new SimpleCursorAdapter(
+                        MainActivity.this,
+                        android.R.layout.simple_list_item_1,
+                        cursor,
+                        new String[]{FruitDatabaseHelper.COL_COMMON_NAME},
+                        new int[]{android.R.id.text1},
+                        0
+                );
+                listView.setAdapter((adapter));
+
+            }else {
+                adapter.swapCursor(cursor);
+            }
+
             adapter.notifyDataSetChanged();
         }
     }
