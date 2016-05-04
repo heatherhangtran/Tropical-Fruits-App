@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class FruitDatabaseHelper extends SQLiteOpenHelper{
     private static final String TAG = FruitDatabaseHelper.class.getCanonicalName();
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Fruits_new.db";
     public static final String FRUITS_LIST_TABLE_NAME = "FRUITS_LIST";
 
