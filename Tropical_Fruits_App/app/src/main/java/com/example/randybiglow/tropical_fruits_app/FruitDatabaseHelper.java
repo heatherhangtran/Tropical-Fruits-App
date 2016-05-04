@@ -1,6 +1,5 @@
 package com.example.randybiglow.tropical_fruits_app;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,78 +9,101 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by RandyBiglow on 5/2/16.
  */
 public class FruitDatabaseHelper extends SQLiteOpenHelper{
+    private static final String TAG = FruitDatabaseHelper.class.getCanonicalName();
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Fruits.db";
+    public static final String DATABASE_NAME = "Fruits_new.db";
+    public static final String FRUITS_LIST_TABLE_NAME = "FRUITS_LIST";
 
-    public static final String SQL_CREATE_FRUIT_TABLE =
-            "CREATE TABLE fruits ( id INTEGER PRIMARY KEY, common_name TEXT, region TEXT, season TEXT, medicinal TEXT )";
-    public static final String SQL_DROP_FRUIT_TABLE = "DROP TABLE IF EXITS fruits";
+    public static final String COL_ID = "_id";
+    public static final String COL_COMMON_NAME = "COMMON_NAME";
+    public static final String COL_REGION = "REGION";
+    public static final String COL_SEASON = "SEASON";
+    public static final String COL_MEDICINAL = "MEDICINAL";
+    public static final String COL_ITEM_DESCRIPTION = "DESCRIPTION";
 
-    public FruitDatabaseHelper (Context context) {
+    public static final String[] FRUITS_COLUMNS = {COL_ID, COL_COMMON_NAME, COL_REGION, COL_SEASON, COL_MEDICINAL, COL_ITEM_DESCRIPTION};
+
+    public static final String CREATE_FRUITS_LIST_TABLE =
+            "CREATE TABLE " + FRUITS_LIST_TABLE_NAME +
+                    "(" +
+                    COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COL_COMMON_NAME + " TEXT, " +
+                    COL_REGION + " TEXT, " +
+                    COL_SEASON + " TEXT, " +
+                    COL_MEDICINAL + " TEXT, " +
+                    COL_ITEM_DESCRIPTION + " TEXT )";
+
+    private static FruitDatabaseHelper mInstance;
+    
+    public static FruitDatabaseHelper getInstance(Context context) {
+        if(mInstance == null) {
+            mInstance = new FruitDatabaseHelper(context.getApplicationContext());
+        }
+        return mInstance;
+    }
+
+    public FruitDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_FRUIT_TABLE);
+        db.execSQL(CREATE_FRUITS_LIST_TABLE);
     }
 
     //Make sure onUpgrade gets called before onCreate.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //db.execSQL(SQL_DROP_FRUIT_TABLE);
-        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + FRUITS_LIST_TABLE_NAME);
+        this.onCreate(db);
     }
 
-    //This is optional for the SQLiteOpenHelper.
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        onUpgrade(db, oldVersion, newVersion);
+    public Cursor getFruitsList() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(FRUITS_LIST_TABLE_NAME,
+                FRUITS_COLUMNS,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+        return cursor;
     }
 
+    public Cursor getDescriptionById(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
 
-    public void insert (int id, String common_name, String region, String season, String medicinal) {
-        SQLiteDatabase db = getWritableDatabase();
+        Cursor cursor = db.query(FRUITS_LIST_TABLE_NAME,
+                new String[]{COL_COMMON_NAME, COL_REGION, COL_SEASON, COL_MEDICINAL, COL_ITEM_DESCRIPTION},
+                COL_ID+" = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null,
+                null);
 
-        ContentValues values = new ContentValues();
-        values.put("id", id);
-        values.put("common_name", common_name);
-        values.put("region", region);
-        values.put("season", season);
-        values.put("medicinal", medicinal);
-
-        db.insert("fruits", null, values);
+        if(cursor.moveToFirst()){
+            return cursor;
+        } else {
+            return null;
+        }
     }
 
-    public Fruits getFruits(int id) {
-        SQLiteDatabase db = getReadableDatabase();
+    public Cursor searchFruits(String query){
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] projection = new String[]{"id", "common_name", "region", "season", "medicinal"};
+        Cursor cursor = db.query(FRUITS_LIST_TABLE_NAME,
+                FRUITS_COLUMNS,
+                COL_COMMON_NAME + " LIKE ?",
+                new String[]{"%"+ query + "%"},
+                null,
+                null,
+                null,
+                null);
 
-        String selection = "id = ?";
-
-        String[] selectionArgs = new String[] {String.valueOf(id)};
-
-        Cursor cursor = db.query("fruits", projection, selection, selectionArgs, null, null, null, null);
-
-        cursor.moveToFirst();
-
-        String common_name = cursor.getString(cursor.getColumnIndex("common_name"));
-        String region = cursor.getString(cursor.getColumnIndex("region"));
-        String season = cursor.getString(cursor.getColumnIndex("season"));
-        String medicinal = cursor.getString(cursor.getColumnIndex("medicinal"));
-
-        return new Fruits(id, common_name, region, season, medicinal);
-    }
-
-    public void delete(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        String selection = "id = ?";
-
-        String[] selectionArgs = new String[]{ String.valueOf(id)};
-
-        db.delete("fruits", selection, selectionArgs);
+        return cursor;
     }
 }
