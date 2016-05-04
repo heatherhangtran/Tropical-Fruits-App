@@ -14,12 +14,17 @@ public class MainActivity extends AppCompatActivity {
     FruitDatabaseHelper dbHelper;
     SimpleCursorAdapter adapter;
     ListView listView;
+//    Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        toolbar = (Toolbar)findViewById(R.id.mainToolbar);
+//        setSupportActionBar(toolbar);
+
+
 
         DBAssetHelper dbSetup = new DBAssetHelper(MainActivity.this);
         dbSetup.getReadableDatabase();
