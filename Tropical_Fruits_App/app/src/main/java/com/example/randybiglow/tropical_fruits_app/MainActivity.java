@@ -19,13 +19,13 @@ public class MainActivity extends AppCompatActivity {
     FruitDatabaseHelper dbHelper;
     ListView listView;
     CursorAdapter adapter;
-    Cursor cursor;
+    Cursor cursor, mCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        adapter = null; //Ask instructors as to why this is needed (derived from demo).
+        //adapter = null; //Ask instructors as to why this is needed (derived from demo).
 
         DBAssetHelper dbSetup = new DBAssetHelper(MainActivity.this);
         dbSetup.getReadableDatabase();
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
 
-        //Switching from SimpleCursorAdapter to CursorAdapter.
         adapter = new SimpleCursorAdapter(MainActivity.this, android.R.layout.simple_list_item_1, cursor, new String[]{FruitDatabaseHelper.COL_COMMON_NAME}, new int[]{android.R.id.text1}, 0);
         listView.setAdapter(adapter);
 
@@ -44,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, Details.class);
-                cursor.moveToPosition(position);
-                intent.putExtra("id", cursor.getInt(cursor.getColumnIndex(FruitDatabaseHelper.COL_ID)));
+                Cursor fruitCursor = (Cursor) parent.getAdapter().getItem(position);
+                intent.putExtra("id", fruitCursor.getInt(fruitCursor.getColumnIndex(FruitDatabaseHelper.COL_ID)));
                 startActivity(intent);
             }
         });
@@ -71,26 +70,25 @@ public class MainActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            cursor = dbHelper.searchFruits(query);
-            //cursor = dbHelper.searchRegion(query);
+            mCursor = dbHelper.searchFruits(query);
 
             listView = (ListView)findViewById(R.id.mainListView);
-            if(adapter == null) {
-                adapter = new SimpleCursorAdapter(
-                        MainActivity.this,
-                        android.R.layout.simple_list_item_1,
-                        cursor,
-                        new String[]{FruitDatabaseHelper.COL_COMMON_NAME},
-                        new int[]{android.R.id.text1},
-                        0
-                );
-                listView.setAdapter((adapter));
+//            if(adapter == null) {
+//                adapter = new SimpleCursorAdapter(
+//                        MainActivity.this,
+//                        android.R.layout.simple_list_item_1,
+//                        mCursor,
+//                        new String[]{FruitDatabaseHelper.COL_COMMON_NAME},
+//                        new int[]{android.R.id.text1},
+//                        0
+//                );
+//                listView.setAdapter((adapter));
 
-            }else {
-                adapter.swapCursor(cursor);
-            }
+//            }else {
+            //WHY IS THIS NOT READING THIS CODE?
+                adapter.swapCursor(mCursor);
+//            }
         }
-
     }
 
 }
