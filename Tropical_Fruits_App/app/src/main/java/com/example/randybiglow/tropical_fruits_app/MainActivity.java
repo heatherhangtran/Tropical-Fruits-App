@@ -19,9 +19,7 @@ public class MainActivity extends AppCompatActivity {
     FruitDatabaseHelper dbHelper;
     ListView listView;
     CursorAdapter adapter;
-    Cursor cursor, cursor1, cursor2;
-
-    //SimpleCursorAdapter adapter;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
