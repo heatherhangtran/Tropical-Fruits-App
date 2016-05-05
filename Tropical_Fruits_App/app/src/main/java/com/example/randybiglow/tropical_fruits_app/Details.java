@@ -12,11 +12,13 @@ public class Details extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        //Use the Singleton to carry the information to this activity.
         FruitDatabaseHelper helper = FruitDatabaseHelper.getInstance(Details.this);
 
         int id = getIntent().getIntExtra("id",-1);
 
         if(id >= 0){
+            //Grabs all of the information from database and displays in the detail page.
             Cursor cursor = helper.getDescriptionById(id);
             String commonName = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_COMMON_NAME));
             String region = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_REGION));

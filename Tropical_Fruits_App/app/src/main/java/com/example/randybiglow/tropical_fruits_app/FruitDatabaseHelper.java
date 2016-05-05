@@ -34,8 +34,8 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
                     COL_MEDICINAL + " TEXT, " +
                     COL_ITEM_DESCRIPTION + " TEXT )";
 
+    //Applying Singleton to get individual detail pages for each item.
     private static FruitDatabaseHelper mInstance;
-    
     public static FruitDatabaseHelper getInstance(Context context) {
         if(mInstance == null) {
             mInstance = new FruitDatabaseHelper(context.getApplicationContext());
@@ -59,6 +59,7 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
         this.onCreate(db);
     }
 
+    //Allows the main page of the app to have a default list.
     public Cursor getFruitsList() {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -73,6 +74,7 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
         return cursor;
     }
 
+    //This allows for the Detail Page to populate information.
     public Cursor getDescriptionById(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -92,13 +94,14 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
         }
     }
 
+    //Allows the cursor to be searchable through three different criteria.
     public Cursor searchFruits(String query){
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor mCursor = db.query(FRUITS_LIST_TABLE_NAME,
                 FRUITS_COLUMNS,
-                COL_COMMON_NAME + " LIKE ? or " + COL_REGION + " = ? or " + COL_SEASON + " LIKE ?",
-                new String[]{"%" + query + "%", query , query},
+                COL_COMMON_NAME + " LIKE ? OR " + COL_REGION + " LIKE ? OR " + COL_SEASON + " LIKE ?",
+                new String[]{"%" + query + "%", "%" + query + "%" , "%" + query + "%"},
                 null,
                 null,
                 null,

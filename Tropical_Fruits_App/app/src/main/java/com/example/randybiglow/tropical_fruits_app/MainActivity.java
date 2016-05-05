@@ -19,26 +19,30 @@ public class MainActivity extends AppCompatActivity {
     FruitDatabaseHelper dbHelper;
     ListView listView;
     CursorAdapter adapter;
-    Cursor cursor, mCursor;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //adapter = null; //Ask instructors as to why this is needed (derived from demo).
 
-        DBAssetHelper dbSetup = new DBAssetHelper(MainActivity.this);
-        dbSetup.getReadableDatabase();
-
-        listView = (ListView)findViewById(R.id.mainListView);
+        //Database instantiated here to allow for a default view.
         dbHelper = FruitDatabaseHelper.getInstance(MainActivity.this);
         cursor = dbHelper.getFruitsList();
+        adapter = new SimpleCursorAdapter(MainActivity.this,
+                android.R.layout.simple_list_item_1,
+                cursor,
+                new String[]{FruitDatabaseHelper.COL_COMMON_NAME},
+                new int[]{android.R.id.text1},
+                0
+        );
 
-        handleIntent(getIntent());
-
-        adapter = new SimpleCursorAdapter(MainActivity.this, android.R.layout.simple_list_item_1, cursor, new String[]{FruitDatabaseHelper.COL_COMMON_NAME}, new int[]{android.R.id.text1}, 0);
+        //Gives the main menu a default list.
+        listView = (ListView)findViewById(R.id.mainListView);
         listView.setAdapter(adapter);
 
+        //Allows the content on the list to be clickable.
+        handleIntent(getIntent());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_options, menu);
 
+        //Creates a SearchView at the top of the app with default search icon.
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -67,28 +72,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //Allows users to search by Name, Region, and Season of Fruits.
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            mCursor = dbHelper.searchFruits(query);
-
+            Cursor mCursor = dbHelper.searchFruits(query);
             listView = (ListView)findViewById(R.id.mainListView);
-//            if(adapter == null) {
-//                adapter = new SimpleCursorAdapter(
-//                        MainActivity.this,
-//                        android.R.layout.simple_list_item_1,
-//                        mCursor,
-//                        new String[]{FruitDatabaseHelper.COL_COMMON_NAME},
-//                        new int[]{android.R.id.text1},
-//                        0
-//                );
-//                listView.setAdapter((adapter));
+            adapter.swapCursor(mCursor);
 
-//            }else {
-            //WHY IS THIS NOT READING THIS CODE?
-                adapter.swapCursor(mCursor);
-//            }
+        }else {
+            adapter.swapCursor(cursor);
         }
     }
-
 }
