@@ -97,8 +97,8 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
 
         Cursor cursor = db.query(FRUITS_LIST_TABLE_NAME,
                 FRUITS_COLUMNS,
-                COL_COMMON_NAME + " LIKE ?",
-                new String[]{"%"+ query + "%"},
+                COL_COMMON_NAME + " LIKE ? or " + COL_REGION + " = ? or " + COL_SEASON + " LIKE ?",
+                new String[]{"%" + query + "%", query , query},
                 null,
                 null,
                 null,

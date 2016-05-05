@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     FruitDatabaseHelper dbHelper;
     ListView listView;
     CursorAdapter adapter;
+    Cursor cursor, cursor1, cursor2;
 
     //SimpleCursorAdapter adapter;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView)findViewById(R.id.mainListView);
         dbHelper = FruitDatabaseHelper.getInstance(MainActivity.this);
-        final Cursor cursor = dbHelper.getFruitsList();
+        cursor = dbHelper.getFruitsList();
 
         handleIntent(getIntent());
 
@@ -72,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Cursor cursor = dbHelper.searchFruits(query);
+            cursor = dbHelper.searchFruits(query);
+            //cursor = dbHelper.searchRegion(query);
 
             listView = (ListView)findViewById(R.id.mainListView);
             if(adapter == null) {
@@ -89,9 +91,8 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 adapter.swapCursor(cursor);
             }
-
-            adapter.notifyDataSetChanged();
         }
+
     }
 
 }
