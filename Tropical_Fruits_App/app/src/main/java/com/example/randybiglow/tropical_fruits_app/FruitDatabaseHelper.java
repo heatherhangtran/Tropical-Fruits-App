@@ -1,5 +1,6 @@
 package com.example.randybiglow.tropical_fruits_app;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,6 +51,21 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_FRUITS_LIST_TABLE);
+        //Seeding database
+        addFruits(db, new Fruits( 1, "Jackfruit", "Asia", "Summer", "antibacterial", "yellow pieces of heaven"));
+        addFruits(db, new Fruits( 2, "Mangosteen", "Asia", "Fall", "diuretic", "purple exterior with white flesh"));
+        addFruits(db, new Fruits( 3, "Cherimoya", "North America", "Spring", "anti-inflammatory", "sweet custard"));
+        addFruits(db, new Fruits( 4, "Lychee", "Asia", "Winter", "anti-acid", "crispy grapes"));
+        addFruits(db, new Fruits( 5, "Pitaya", "Asia", "Fall", "anti-aging", "mild kiwi"));
+        addFruits(db, new Fruits( 6, "Waterapple", "Asia", "Spring", "anti-diabetes", "tangy apple"));
+        addFruits(db, new Fruits( 7, "Breadfruit", "Africa", "Summer", "antioxidants", "spongy"));
+        addFruits(db, new Fruits( 8, "Soursop", "South America", "Spring", "antimicrobial", "sweet and tangy custard"));
+        addFruits(db, new Fruits( 9, "Redcurrant", "Europe", "Summer", "anti-coagulant", "bright red goodness"));
+        addFruits(db, new Fruits( 10, "Finger Lime", "Australia", "Winter", "antioxidant", "beautiful sour beings"));
+        addFruits(db, new Fruits( 11, "Persimmons", "North America", "Fall", "anti-inflammatory", "cinnamon crispy apples"));
+        addFruits(db, new Fruits( 12, "Cuckoo", "Africa", "Summer", "cough suppressant", "soft sweet deliciousness"));
+        addFruits(db, new Fruits( 13, "Guava", "South America", "Winter", "pain reliever", "fragrant bursts of firework on the tongue"));
+        addFruits(db, new Fruits( 14, "Ganga", "North America", "Spring", "anything", "buds, lots of buds"));
     }
 
     //Make sure onUpgrade gets called before onCreate.
@@ -57,6 +73,21 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + FRUITS_LIST_TABLE_NAME);
         this.onCreate(db);
+    }
+
+    //Methods for adding data to database.
+    void addFruits(SQLiteDatabase db, Fruits fruits) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COL_COMMON_NAME, fruits.getName());
+        values.put(COL_REGION, fruits.getRegion());
+        values.put(COL_SEASON, fruits.getSeason());
+        values.put(COL_MEDICINAL, fruits.getMedicinal());
+        values.put(COL_ITEM_DESCRIPTION, fruits.getDescription());
+
+        db.insert(FRUITS_LIST_TABLE_NAME, null, values);
+//        db.close();
     }
 
     //Allows the main page of the app to have a default list.
