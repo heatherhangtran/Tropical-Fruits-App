@@ -26,7 +26,13 @@ public class Details extends AppCompatActivity {
             String medicinal = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_MEDICINAL));
             String description = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_ITEM_DESCRIPTION));
             TextView textView = (TextView)findViewById(R.id.detailsTextView);
-            textView.setText(commonName + " originates from " + region + ". The peak season is " + season + ". One of it's medicinal benefits is " + medicinal + ". The fruit tastes like " + description + ".");
+            TextView textView2 = (TextView)findViewById(R.id.descriptionTextView);
+            textView.setText(commonName + " originates from " +
+                    region + ". The peak season is " +
+                    season + ". One of it's medicinal benefits is " +
+                    medicinal + "."
+            );
+            textView2.setText( "Taste... " + description + ".");
         }
     }
 }
