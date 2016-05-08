@@ -15,7 +15,7 @@ public class TasteTesting {
         assertEquals("COMMON_NAME", FruitDatabaseHelper.COL_COMMON_NAME);
         assertEquals("_id", FruitDatabaseHelper.COL_ID);
         assertEquals("REGION", FruitDatabaseHelper.COL_REGION);
-        assertEquals("FruitsDatabaseName.db", FruitDatabaseHelper.DATABASE_NAME);
+        assertEquals("Fruits_new.db", FruitDatabaseHelper.DATABASE_NAME);
         assertNotNull(FruitDatabaseHelper.COL_ITEM_DESCRIPTION);
         //My favorite test: assertNotNull!
 
