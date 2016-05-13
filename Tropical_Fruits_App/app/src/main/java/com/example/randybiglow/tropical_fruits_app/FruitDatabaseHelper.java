@@ -63,9 +63,10 @@ public class FruitDatabaseHelper extends SQLiteOpenHelper{
         addFruits(db, new Fruits( 9, "Redcurrant", "Europe", "Summer", "anti-coagulant", "bright red goodness"));
         addFruits(db, new Fruits( 10, "Finger Lime", "Australia", "Winter", "antioxidant", "beautiful sour beings"));
         addFruits(db, new Fruits( 11, "Persimmons", "North America", "Fall", "anti-inflammatory", "cinnamon crispy apples"));
-        addFruits(db, new Fruits( 12, "Cuckoo", "Africa", "Summer", "cough suppressant", "soft sweet deliciousness"));
+        addFruits(db, new Fruits( 12, "Ackee", "North America", "Summer", "cough suppressant", "spongy and savory"));
         addFruits(db, new Fruits( 13, "Guava", "South America", "Winter", "pain reliever", "fragrant bursts of firework on the tongue"));
-        addFruits(db, new Fruits( 14, "Ganga", "North America", "Spring", "anything", "buds, lots of buds"));
+        addFruits(db, new Fruits( 14, "Miracle Fruit", "Africa", "Spring", "antioxidant", "mildly sweet, but causes sour food taste sweet"));
+        addFruits(db, new Fruits( 15, "Ganga", "North America", "Spring", "anything", "buds, lots of buds"));
     }
 
     //Make sure onUpgrade gets called before onCreate.
