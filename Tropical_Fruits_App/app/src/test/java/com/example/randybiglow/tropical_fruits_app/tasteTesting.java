@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by RandyBiglow on 5/5/16.
  */
-public class tasteTesting {
+public class TasteTesting {
     @Test
     public void test(){
         assertEquals("COMMON_NAME",FruitDatabaseHelper.COL_COMMON_NAME);
