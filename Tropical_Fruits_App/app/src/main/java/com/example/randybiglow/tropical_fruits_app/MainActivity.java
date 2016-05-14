@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 public class MainActivity extends AppCompatActivity {
     FruitDatabaseHelper dbHelper;
@@ -29,17 +29,23 @@ public class MainActivity extends AppCompatActivity {
         //Database instantiated here to allow for a default view.
         dbHelper = FruitDatabaseHelper.getInstance(MainActivity.this);
         cursor = dbHelper.getFruitsList();
-        cursorAdapter = new SimpleCursorAdapter(MainActivity.this,
-                android.R.layout.simple_list_item_1,
-                cursor,
-                new String[]{FruitDatabaseHelper.COL_COMMON_NAME},
-                new int[]{android.R.id.text1},
-                0
-        );
+//        cursorAdapter = new CursorAdapter(MainActivity.this,cursor,0) {
+//
+//            @Override
+//            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+//                return LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1,parent,false);
+//            }
+//
+//            @Override
+//            public void bindView(View view, Context context, Cursor cursor) {
+//                TextView textView = (TextView) findViewById(android.R.id.text1);
+//
+//                textView.setText(cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_COMMON_NAME)));
+//            }
+//        };
 
         //Gives the main menu a default list.
         listView = (ListView)findViewById(R.id.mainListView);
-        listView.setAdapter(cursorAdapter);
 
         //Allows the content on the list to be clickable.
         handleIntent(getIntent());
@@ -50,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
                 Cursor fruitCursor = (Cursor) parent.getAdapter().getItem(position);
                 intent.putExtra("id", fruitCursor.getInt(fruitCursor.getColumnIndex(FruitDatabaseHelper.COL_ID)));
                 startActivity(intent);
+            }
+        });
+
+        new Handler().post(new Runnable() {
+
+            @Override
+            public void run() {
+                cursorAdapter = new CustomCursorAdapter(MainActivity.this, cursor,0);
+
+                listView.setAdapter(cursorAdapter);
             }
         });
     }
@@ -79,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
             Cursor mCursor = dbHelper.searchFruits(query);
             listView = (ListView)findViewById(R.id.mainListView);
             cursorAdapter.swapCursor(mCursor);
-
-        }else {
-            cursorAdapter.swapCursor(cursor);
         }
+//          else {
+//            cursorAdapter.swapCursor(cursor);
+//        }
     }
 }

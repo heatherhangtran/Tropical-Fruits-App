@@ -4,7 +4,7 @@ package com.example.randybiglow.tropical_fruits_app;
  * Created by RandyBiglow on 5/5/16.
  */
 public class Fruits {
-    private int _id;
+    private int _id, _image;
     private String _name, _region, _season, _medicinal, _description;
 
     public Fruits() {
@@ -12,22 +12,24 @@ public class Fruits {
     }
 
     //Constructors to utilize variables.
-    public Fruits (int id, String name, String region, String season, String medicinal, String description) {
+    public Fruits (int id, String name, String region, String season, String medicinal, String description, int image) {
         this._id = id;
         this._name = name;
         this._region = region;
         this._season = season;
         this._medicinal = medicinal;
         this._description = description;
+        this._image = image;
     }
 
     //Setting a separate Constructor to hold only Strings.
-    public Fruits (String name, String region, String season, String medicinal, String description) {
+    public Fruits (String name, String region, String season, String medicinal, String description, int image) {
         this._name = name;
         this._region = region;
         this._season = season;
         this._medicinal = medicinal;
         this._description = description;
+        this._image = image;
     }
 
     //Separate getters and setters for each String and int:
@@ -77,5 +79,13 @@ public class Fruits {
 
     public void setDescription(String description) {
         this._description = description;
+    }
+
+    public int getImage() {
+        return _image;
+    }
+
+    public void setImage(int _image) {
+        this._image = _image;
     }
 }
