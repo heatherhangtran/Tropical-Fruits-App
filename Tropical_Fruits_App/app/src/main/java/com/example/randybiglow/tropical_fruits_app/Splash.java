@@ -7,9 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by RandyBiglow on 4/29/16.
- */
 public class Splash extends AppCompatActivity{
 
     @Override

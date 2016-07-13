@@ -40,7 +40,6 @@
                         android:id="@+id/imageIcon"
                         android:layout_width="@dimen/image_icon_size"
                         android:layout_height="@dimen/image_icon_size"
-                        android:onClick="imageClick"
                         android:scaleType="fitXY"
                         android:transitionName="persistentImage"/>
                 </LinearLayout>

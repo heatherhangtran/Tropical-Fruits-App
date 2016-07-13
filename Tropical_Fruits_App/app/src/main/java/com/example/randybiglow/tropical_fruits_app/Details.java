@@ -3,6 +3,7 @@ package com.example.randybiglow.tropical_fruits_app;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Details extends AppCompatActivity {
@@ -25,8 +26,11 @@ public class Details extends AppCompatActivity {
             String season = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_SEASON));
             String medicinal = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_MEDICINAL));
             String description = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_ITEM_DESCRIPTION));
+            String image = cursor.getString(cursor.getColumnIndex(FruitDatabaseHelper.COL_IMAGE));
             TextView textView = (TextView)findViewById(R.id.detailsTextView);
             TextView textView2 = (TextView)findViewById(R.id.descriptionTextView);
+            ImageView imageView = (ImageView) findViewById(R.id.detailsImage);
+            imageView.setImageResource(Integer.parseInt(image));
             textView.setText(commonName + " originates from " +
                     region + ". The peak season is " +
                     season + ". One of it's medicinal benefits is " +
