@@ -9,6 +9,7 @@ public class Fruits {
 
     public Fruits() {
         //Following SQLite tutorial. Requires empty constructor.
+        //This prevents someone from accidentally instantiating the contract class (this class), I have to give it an empty constructor.
     }
 
     //Constructors to utilize variables.
