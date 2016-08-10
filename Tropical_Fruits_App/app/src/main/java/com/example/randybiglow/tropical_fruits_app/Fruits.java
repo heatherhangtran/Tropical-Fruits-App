@@ -1,7 +1,7 @@
 package com.example.randybiglow.tropical_fruits_app;
 
 /**
- * Created by RandyBiglow on 5/5/16.
+ * Created by HangTran on 5/5/16.
  */
 public class Fruits {
     private int _id, _image;

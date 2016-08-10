@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by RandyBiglow on 5/13/16.
+ * Created by HangTran on 5/13/16.
  */
 public class CustomCursorAdapter extends CursorAdapter {
     LayoutInflater cursorInflater;

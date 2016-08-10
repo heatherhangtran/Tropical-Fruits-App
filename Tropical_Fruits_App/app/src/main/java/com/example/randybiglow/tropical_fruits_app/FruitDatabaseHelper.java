@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by RandyBiglow on 5/2/16.
+ * Created by HangTran on 5/2/16.
  */
 public class FruitDatabaseHelper extends SQLiteOpenHelper{
     private static final String TAG = FruitDatabaseHelper.class.getCanonicalName();
